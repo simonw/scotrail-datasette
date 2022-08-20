@@ -5,7 +5,7 @@ on:
   push:
 
 jobs:
-  fetch-csv:
+  buid-and-deploy:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -18,7 +18,7 @@ jobs:
       run: |
         pip install -r requirements.txt
     - name: Build SQLite database
-      run: ./build.sh
+      run: ./build-db.sh
     - name: Deploy to Vercel
       env:
         VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
