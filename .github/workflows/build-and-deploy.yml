@@ -27,6 +27,6 @@ jobs:
           --token $VERCEL_TOKEN \
           --scope datasette \
           --project scotrail \
-          --install datasette-mp3-audio \
+          --install "datasette-mp3-audio>=0.2" \
           --install datasette-graphql \
           --metadata metadata.yml
