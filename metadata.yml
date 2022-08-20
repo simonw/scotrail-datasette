@@ -7,8 +7,9 @@ description_html: |-
   <p>This Datasette instance provides an interface and JSON API to that data.</p>
 
   <form action="/scotrail/announcements" method="GET">
-    <p><input name="_search" type="search"> <input type="submit" value="Search"></p>
+    <p><input name="_search" placeholder="Search for an announcement snippet" type="search"> <input type="submit" value="Search"></p>
   </form>
+  <p>Or assemble and listen to <a href="/scotrail/random_apology">a random apology</a>.</p>
 about: simonw/scotrail-datasette
 about_url: https://github.com/simonw/scotrail-datasette
 source: matteason/scotrail-announcements-june-2022
@@ -19,3 +20,47 @@ databases:
       announcements:
         facets:
         - Category
+    queries:
+      random_apology:
+        hide_sql: true
+        sql: |-
+          with apology as (
+              select Transcription, mp3 from announcements where
+                  Category = 'Apology'
+              order by random() limit 1
+          ),
+          train_company as (
+              select Transcription, mp3 from announcements where
+                  Category = 'Train operating company'
+                  and Transcription like '%to%'
+              order by random() limit 1
+          ),
+          destination as (
+              select Transcription, mp3 from announcements where
+                  Category = 'Destination'
+              order by random() limit 1
+          ),
+          cancelled as (
+              select Transcription, mp3 from announcements where
+                  Transcription = 'has been cancelled'
+              limit 1
+          ),
+          due_to as (
+              select Transcription, mp3 from announcements where
+                  Transcription = 'due to'
+              limit 1
+          ),
+          reason as (
+              select Transcription, mp3 from announcements where
+                  Category = 'Reason'
+              order by random() limit 1
+          ),
+          combined as (
+            select 1 as sort, * from apology
+            union select 2, * from train_company
+            union select 3, * from destination
+            union select 4, * from cancelled
+            union select 5, * from due_to
+            union select 6, * from reason
+          )
+          select * from combined order by sort
