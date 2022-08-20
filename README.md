@@ -1,4 +1,4 @@
-# datasette-scotrail
+# scotrail-datasette
 
 ScotRail announcements in Datasette
 
