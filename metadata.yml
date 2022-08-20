@@ -5,7 +5,17 @@ description_html: |-
   <p>Matt Eason and a team of volunteers <a href="https://github.com/matteason/scotrail-announcements-june-2022/blob/main/README.md">split the file</a> into separate mp3s and transcribed them.</p>
 
   <p>This Datasette instance provides an interface and JSON API to that data.</p>
+
+  <form action="/scotrail/announcements" method="GET">
+    <p><input name="_search" type="search"> <input type="submit" value="Search"></p>
+  </form>
 about: simonw/scotrail-datasette
 about_url: https://github.com/simonw/scotrail-datasette
 source: matteason/scotrail-announcements-june-2022
 source_url: https://github.com/matteason/scotrail-announcements-june-2022
+databases:
+  scotrail:
+    tables:
+      announcements:
+        facets:
+        - Category
