@@ -2,3 +2,4 @@ sqlite-utils
 datasette
 datasette-publish-vercel
 datasette-mp3-audio
+datasette-graphql
