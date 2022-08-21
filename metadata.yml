@@ -14,7 +14,7 @@ description_html: |-
 
   <p>You can also <a href="/scotrail/assemble_sentence?terms=i+am+sorry%2C+scotrail%2C+from%2C+bath+spa%2C+is+delayed%2C+due+to%2C+bomb">assemble your own sentence</a> by searching for multiple clips to combine together.</p>
 
-  <p>See <a href="https://simonwillison.net/2022/Aug/21/scotrail/">Hacking around with the ScotRail audio announcements</a> for detailed background on this project.</p>
+  <p>See <a href="https://simonwillison.net/2022/Aug/21/scotrail/">Analyzing ScotRail audio announcements with Datasette—from prototype to production</a> for detailed background on this project.</p>
 about: simonw/scotrail-datasette
 about_url: https://github.com/simonw/scotrail-datasette
 source: matteason/scotrail-announcements-june-2022
