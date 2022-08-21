@@ -9,7 +9,10 @@ description_html: |-
   <form action="/scotrail/announcements" method="GET">
     <p><input name="_search" placeholder="Search for an announcement snippet" type="search"> <input type="submit" value="Search"></p>
   </form>
-  <p>Or assemble and listen to <a href="/scotrail/random_apology">a random apology</a>.</p>
+
+  <p>Or generate and listen to <a href="/scotrail/random_apology">a random apology</a>.</p>
+
+  <p>You can also <a href="/scotrail/assemble_sentence?terms=i+am+sorry%2C+scotrail%2C+from%2C+bath+spa%2C+is+delayed%2C+due+to%2C+bomb">assemble your own sentence</a> by searching for multiple clips to combine together.</p>
 
   <p>See <a href="https://simonwillison.net/2022/Aug/21/scotrail/">Hacking around with the ScotRail audio announcements</a> for detailed background on this project.</p>
 about: simonw/scotrail-datasette
@@ -66,3 +69,47 @@ databases:
             union select 6, * from reason
           )
           select * from combined order by sort
+      assemble_sentence:
+        description_html: |-
+          <p>Enter a sequence of terms separated by commas, like this:</p>
+
+          <p><code>i am sorry, scotrail, from, bath spa, is delayed, due to, bomb</code></p>
+
+          <p>Each term will be treated as a search, and the first, shortest matching clip will be selected.</p>
+
+          <p>You can then hit "Play all" to hear all the clips as a sequence.</p>
+        hide_sql: true
+        sql: |-
+          with phrases as (
+            select
+              key, value
+            from
+              json_each('["' || replace(:terms, ',', '","') || '"]')
+          ),
+          matches as (select
+            phrases.key,
+            phrases.value,
+            (
+              select File from announcements
+              where announcements.Transcription like '%' || trim(phrases.value) || '%'
+              order by length(announcements.Transcription)
+              limit 1
+            ) as File
+          from
+            phrases
+          ),
+          results as (
+            select key, announcements.Transcription, announcements.mp3
+            from announcements join matches on announcements.File = matches.File
+            order by key
+          )
+          select
+            'Combined sentence:' as mp3,
+            group_concat(Transcription, ' ') as Transcription,
+            -1 as key
+          from results
+            union
+          select
+            mp3, Transcription, key
+          from results
+          order by key
