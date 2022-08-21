@@ -10,6 +10,8 @@ description_html: |-
     <p><input name="_search" placeholder="Search for an announcement snippet" type="search"> <input type="submit" value="Search"></p>
   </form>
   <p>Or assemble and listen to <a href="/scotrail/random_apology">a random apology</a>.</p>
+
+  <p>See <a href="https://simonwillison.net/2022/Aug/21/scotrail/">Hacking around with the ScotRail audio announcements</a> for detailed background on this project.</p>
 about: simonw/scotrail-datasette
 about_url: https://github.com/simonw/scotrail-datasette
 source: matteason/scotrail-announcements-june-2022
